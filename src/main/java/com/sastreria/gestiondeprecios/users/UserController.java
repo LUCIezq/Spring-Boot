@@ -39,7 +39,7 @@ public class UserController {
         User searched = userService.findUserById(id);
 
         return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
+                .status(HttpStatus.OK)
                 .body(userMapper.toDetail(searched));
     }
 

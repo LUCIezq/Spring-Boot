@@ -1,11 +1,16 @@
 package com.sastreria.gestiondeprecios.util;
 
-import java.time.LocalDateTime;
+import lombok.Builder;
 
+import java.time.LocalDateTime;
+import java.util.Map;
+
+@Builder
 public record ErrorResponse(
         String message,
-        String errorCode,
         int status,
-        LocalDateTime timestamp
+        LocalDateTime timestamp,
+        String path,
+        Map<String, String> errors
 ) {
 }
