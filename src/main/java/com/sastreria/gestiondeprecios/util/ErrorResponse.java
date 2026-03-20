@@ -1,5 +1,6 @@
 package com.sastreria.gestiondeprecios.util;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ public record ErrorResponse(
         int status,
         LocalDateTime timestamp,
         String path,
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         Map<String, String> errors
 ) {
 }

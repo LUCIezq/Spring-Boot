@@ -1,5 +1,6 @@
 package com.sastreria.gestiondeprecios.exceptions;
 
+import com.sastreria.gestiondeprecios.exceptions.user.UserNotFound;
 import com.sastreria.gestiondeprecios.util.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -29,5 +30,19 @@ public class GlobalExceptionHandler {
                 .build();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(UserNotFound.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFound exception, HttpServletRequest request) {
+        return ResponseEntity.status(
+                        HttpStatus.NOT_FOUND
+                )
+                .body(ErrorResponse.builder()
+                        .message(exception.getMessage())
+                        .status(HttpStatus.NOT_FOUND.value())
+                        .timestamp(LocalDateTime.now())
+                        .path(request.getRequestURI())
+                        .build()
+                );
     }
 }

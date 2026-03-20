@@ -6,18 +6,24 @@ import com.sastreria.gestiondeprecios.users.dto.UserRequest;
 import com.sastreria.gestiondeprecios.users.dto.UserResponse;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class UserMapper {
     public User toEntity(UserRequest request) {
         return User.builder()
-                .nombre(request.nombre())
+                .name(request.name())
+                .surname(request.surname())
+                .email(request.email())
                 .build();
     }
 
     public UserResponse toDto(User user) {
         return UserResponse.builder()
                 .id(user.getId())
-                .nombre(user.getNombre())
+                .fullName(user.getFullName())
+                .email(user.getEmail())
                 .createdAt(user.getCreatedAt())
                 .build();
     }
@@ -26,7 +32,14 @@ public class UserMapper {
         return UserDetailResponse
                 .builder()
                 .id(user.getId())
-                .nombre(user.getNombre())
+                .nombre(user.getName())
                 .build();
+    }
+
+    public List<UserResponse> toDetailAll(List<User> users) {
+        if (users.isEmpty()) {
+            return List.of();
+        }
+        return users.stream().map(this::toDto).toList();
     }
 }

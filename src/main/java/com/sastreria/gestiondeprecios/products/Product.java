@@ -1,5 +1,6 @@
-package com.sastreria.gestiondeprecios.users;
+package com.sastreria.gestiondeprecios.products;
 
+import com.sastreria.gestiondeprecios.productTypes.ProductType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,33 +13,29 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(
-        name = "users"
+        name = "products"
 )
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-
-public class User {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(nullable = false, length = 50)
-    private String surname;
-
-    @Column(nullable = false, length = 50, unique = true)
-    private String email;
+    @Column(nullable = true)
+    private String description;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    public String getFullName() {
-        return name + " " + surname;
-    }
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "product_type_id", nullable = false)
+    private ProductType type;
 }

@@ -4,17 +4,21 @@ import com.sastreria.gestiondeprecios.users.dto.UserRequest;
 import com.sastreria.gestiondeprecios.users.dto.UserResponse;
 import com.sastreria.gestiondeprecios.users.mapper.UserMapper;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/v1/users")
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class UserController {
 
     private final UserService userService;
@@ -23,7 +27,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserResponse> create(@Valid @RequestBody UserRequest userRequest) {
 
-        log.info("Request para crear usuario({})", userRequest.nombre());
+        log.info("Request para crear usuario({})", userRequest.name());
 
         User saved = userService.saveUser(userMapper.toEntity(userRequest));
 
@@ -33,14 +37,24 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDetailResponse> findUserById(@PathVariable Long id) {
+    public ResponseEntity<UserDetailResponse> findUserById(
+            @PathVariable
+            @Positive(message = "El id debe ser un numero positivo") Long id
+    ) {
         log.info("Request para buscar usuario ({})", id);
 
         User searched = userService.findUserById(id);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(userMapper.toDetail(searched));
+        return ResponseEntity.ok(userMapper.toDetail(searched));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserResponse>> findAll() {
+        log.info("Request para obtener todos los usuarios");
+        List<User> users = userService.getAll();
+        return ResponseEntity.ok(
+                userMapper.toDetailAll(users)
+        );
     }
 
 }
