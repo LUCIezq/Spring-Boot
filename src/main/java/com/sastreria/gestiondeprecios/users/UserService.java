@@ -1,14 +1,15 @@
 package com.sastreria.gestiondeprecios.users;
 
-import com.sastreria.gestiondeprecios.users.dto.UserRequest;
-import com.sastreria.gestiondeprecios.users.dto.UserResponse;
-
 import java.util.List;
 
 public interface UserService {
-    User saveUser(User entity);
+    User create(User entity);
 
-    User findUserById(Long id);
+    boolean existByEmail(String email);
+
+    User findById(Long id);
 
     List<User> getAll();
+
+    void delete(Long id);
 }

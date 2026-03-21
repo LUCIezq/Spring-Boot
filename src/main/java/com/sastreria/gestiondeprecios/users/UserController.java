@@ -28,9 +28,7 @@ public class UserController {
     public ResponseEntity<UserResponse> create(@Valid @RequestBody UserRequest userRequest) {
 
         log.info("Request para crear usuario({})", userRequest.name());
-
-        User saved = userService.saveUser(userMapper.toEntity(userRequest));
-
+        User saved = userService.create(userMapper.toEntity(userRequest));
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userMapper.toDto(saved));
@@ -42,9 +40,7 @@ public class UserController {
             @Positive(message = "El id debe ser un numero positivo") Long id
     ) {
         log.info("Request para buscar usuario ({})", id);
-
-        User searched = userService.findUserById(id);
-
+        User searched = userService.findById(id);
         return ResponseEntity.ok(userMapper.toDetail(searched));
     }
 
@@ -57,4 +53,10 @@ public class UserController {
         );
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@Validated @PathVariable Long id) {
+        log.info("Request para eliminar usuario ({})", id);
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

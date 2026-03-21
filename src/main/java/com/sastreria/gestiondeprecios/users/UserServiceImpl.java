@@ -13,12 +13,20 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public User saveUser(User entity) {
+    public User create(User entity) {
+        if (existByEmail(entity.getEmail())) {
+            throw new UserNotFound("El usuario ya existe");
+        }
         return userRepository.save(entity);
     }
 
     @Override
-    public User findUserById(Long id) {
+    public boolean existByEmail(String email) {
+        return userRepository.existsUserByEmail(email);
+    }
+
+    @Override
+    public User findById(Long id) {
         return userRepository.findById(id).orElseThrow(
                 () -> new UserNotFound("Usuario no encontrado")
         );
@@ -29,4 +37,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    @Override
+    public void delete(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new UserNotFound("Usuario no encontrado");
+        }
+        userRepository.deleteById(id);
+    }
 }
