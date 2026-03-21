@@ -1,6 +1,7 @@
 package com.sastreria.gestiondeprecios.users;
 
 import com.sastreria.gestiondeprecios.exceptions.user.UserNotFound;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    @Transactional
     @Override
     public User create(User entity) {
         if (existByEmail(entity.getEmail())) {

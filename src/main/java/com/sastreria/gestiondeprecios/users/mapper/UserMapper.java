@@ -21,8 +21,6 @@ public class UserMapper {
     public UserResponse toDto(User user) {
         return UserResponse.builder()
                 .id(user.getId())
-                .fullName(user.getFullName())
-                .email(user.getEmail())
                 .createdAt(user.getCreatedAt())
                 .build();
     }

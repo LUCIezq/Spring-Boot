@@ -1,6 +1,6 @@
 package com.sastreria.gestiondeprecios.products;
 
-import com.sastreria.gestiondeprecios.productTypes.ProductType;
+import com.sastreria.gestiondeprecios.productCategory.ProductCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,5 +37,5 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_type_id", nullable = false)
-    private ProductType type;
+    private ProductCategory type;
 }

@@ -3,6 +3,7 @@ package com.sastreria.gestiondeprecios.exceptions;
 import com.sastreria.gestiondeprecios.exceptions.user.UserNotFound;
 import com.sastreria.gestiondeprecios.util.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -49,12 +51,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleBaseDataConstraint(DataIntegrityViolationException ex, HttpServletRequest request) {
+        log.error("Error de integridad en BD", ex);
         return ResponseEntity.status(
                         HttpStatus.BAD_REQUEST
                 )
                 .body(
                         ErrorResponse.builder()
-                                .message("Ocurrio un problema en la creacion del usuario")
+                                .message("Error de integridad de datos")
                                 .status(HttpStatus.BAD_REQUEST.value())
                                 .timestamp(LocalDateTime.now())
                                 .path(request.getRequestURI())

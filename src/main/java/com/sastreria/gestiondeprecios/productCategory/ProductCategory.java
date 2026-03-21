@@ -1,4 +1,4 @@
-package com.sastreria.gestiondeprecios.productTypes;
+package com.sastreria.gestiondeprecios.productCategory;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class ProductType {
+public class ProductCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,7 +24,7 @@ public class ProductType {
     @Column(nullable = false, length = 100, unique = true)
     private String name;
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     private String description;
 
     @Column(nullable = false)

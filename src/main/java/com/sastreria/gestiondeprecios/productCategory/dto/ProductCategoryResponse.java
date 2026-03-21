@@ -1,13 +1,12 @@
-package com.sastreria.gestiondeprecios.users.dto;
+package com.sastreria.gestiondeprecios.productCategory.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
 @Builder
-public record UserResponse(
+public record ProductCategoryResponse(
         Long id,
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime createdAt
 ) {
