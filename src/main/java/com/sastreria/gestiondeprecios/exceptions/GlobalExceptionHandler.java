@@ -1,5 +1,6 @@
 package com.sastreria.gestiondeprecios.exceptions;
 
+import com.sastreria.gestiondeprecios.exceptions.auth.DuplicateEmailException;
 import com.sastreria.gestiondeprecios.exceptions.user.UserNotFound;
 import com.sastreria.gestiondeprecios.util.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -64,4 +65,21 @@ public class GlobalExceptionHandler {
                                 .build()
                 );
     }
+
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateEmail(DuplicateEmailException ex, HttpServletRequest request) {
+        log.error("El email ya se encuentra en uso", ex);
+        return ResponseEntity.status(
+                        HttpStatus.CONFLICT
+                )
+                .body(
+                        ErrorResponse.builder()
+                                .message(ex.getMessage())
+                                .status(HttpStatus.CONFLICT.value())
+                                .timestamp(LocalDateTime.now())
+                                .path(request.getRequestURI())
+                                .build()
+                );
+    }
+
 }

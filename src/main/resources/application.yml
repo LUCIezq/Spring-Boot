@@ -10,3 +10,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+jwt:
+  secret: ${jwt_secret}
+  expiration: ${jwt_expiration}
