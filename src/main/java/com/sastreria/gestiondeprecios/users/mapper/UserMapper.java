@@ -22,6 +22,7 @@ public class UserMapper {
         return UserResponse.builder()
                 .id(user.getId())
                 .createdAt(user.getCreatedAt())
+                .rol(user.getRole())
                 .build();
     }
 
